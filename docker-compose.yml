@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - fashion-network
+
+  # PostgreSQL
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: fashion_user
+      POSTGRES_PASSWORD: fashion1234
+      POSTGRES_DB: fashion_ecommerce_orders
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fashion-network
+
+  # User Service
+  user-service:
+    build: ./user-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/fashion-ecommerce-users
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+    networks:
+      - fashion-network
+
+  # Product Service
+  product-service:
+    build: ./product-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/fashion-ecommerce-products
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+    networks:
+      - fashion-network
+
+  # Order Service
+  order-service:
+    build: ./order-service
+    ports:
+      - "3003:3003"
+    environment:
+      - DATABASE_URL=postgresql://postgres:fashion_user@fashion1234:5432/fashion_ecommerce_orders
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - postgres
+    networks:
+      - fashion-network
+
+  # Recommendation Service
+  recommendation-service:
+    build: ./recommendation-service
+    ports:
+      - "3004:3004"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/fashion-ecommerce-recommendations
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+    networks:
+      - fashion-network
+
+  # Analytics Service
+  analytics-service:
+    build: ./analytics-service
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/fashion-ecommerce-analytics
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+    networks:
+      - fashion-network
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+      - recommendation-service
+      - analytics-service
+    networks:
+      - fashion-network
+
+networks:
+  fashion-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  postgres_data:

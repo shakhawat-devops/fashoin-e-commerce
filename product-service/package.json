@@ -1,0 +1,27 @@
+{
+  "name": "product-management-service",
+  "version": "1.0.0",
+  "description": "Product Management Service for Fashion E-Commerce Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.8.6"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

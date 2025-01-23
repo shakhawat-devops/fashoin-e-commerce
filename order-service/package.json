@@ -1,0 +1,31 @@
+{
+  "name": "order-payment-service",
+  "version": "1.0.0",
+  "description": "Order and Payment Service for Fashion E-Commerce Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "migrate": "node src/database/migrate.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "pg": "^8.9.0",
+    "stripe": "^11.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
