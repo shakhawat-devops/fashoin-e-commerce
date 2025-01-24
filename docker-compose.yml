@@ -57,7 +57,7 @@ services:
     ports:
       - "3003:3003"
     environment:
-      - DATABASE_URL=postgresql://postgres:fashion_user@fashion1234:5432/fashion_ecommerce_orders
+      - DATABASE_URL=postgresql://fashion_user:fashion1234@postgres:5432/fashion_ecommerce_orders
       - JWT_SECRET=your-secret-key
     depends_on:
       - postgres
