@@ -49,7 +49,7 @@ curl -X POST http://localhost:3001/register \
   }'
 ```
 ```bash
-SELLER_RESPONSE=$(curl -X POST http://localhost:3001/register \
+SELLER_RESPONSE=$(curl -X POST http://localhost:3001/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "seller@example.com",
