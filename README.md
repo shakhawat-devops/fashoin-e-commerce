@@ -11,7 +11,6 @@ The platform consists of five microservices:
 3. Order and Payment Service (Port 3003)
 4. Recommendation Service (Port 3004)
 5. Analytics Service (Port 3005)
-6. Frontend Application (Port 3000)
 
 ## Prerequisites
 
@@ -199,4 +198,3 @@ Copyfashion-ecommerce/
 ├── order-service/
 ├── recommendation-service/
 ├── analytics-service/
-└── frontend/
