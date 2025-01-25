@@ -45,7 +45,10 @@ curl -X POST http://localhost:3001/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "seller@example.com",
-    "password": "password123"
+    "password": "password123",
+    "firstName": "John",
+    "lastName": "Seller",
+    "role": "seller"
   }'
 ```
 ```bash
