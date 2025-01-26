@@ -22,8 +22,8 @@ The platform consists of five microservices:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd fashion-ecommerce
+git clone https://github.com/shakhawat-devops/fashoin-e-commerce.git
+cd fashoin-ecommerce
 ```
 Stop any local instances of MongoDB and PostgreSQL if running:
 
@@ -119,6 +119,54 @@ curl -X POST http://localhost:3003/cart/add \
 curl -X GET http://localhost:3003/cart \
   -H "Authorization: Bearer $USER_TOKEN"
 ```
+
+# 6. Register and login as Admin
+``` bash
+curl -X POST http://localhost:3001/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@example.com",
+    "password": "password123",
+    "firstName": "John",
+    "lastName": "Seller",
+    "role": "admin"
+  }'
+```
+``` bash
+ADMIN_RESPONSE=$(curl -X POST http://localhost:3001/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@example.com",
+    "password": "password123"
+  }')
+```
+``` bash
+ADMIN_TOKEN=$(echo $ADMIN_RESPONSE | jq -r '.token')
+```
+# Get sales analytics
+``` bash
+curl -X GET http://localhost:3005/analytics/report/sales \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{
+    "startDate": "2024-01-01",
+    "endDate": "2024-12-31"
+  }'
+```
+# Get traffic analytics
+``` bash
+curl -X GET http://localhost:3005/analytics/report/traffic \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{
+    "startDate": "2024-01-01",
+    "endDate": "2024-12-31"
+  }'
+```
+``` bash
+# Get product performance analytics
+curl -X GET http://localhost:3005/analytics/report/products \
+  -H "Authorization: Bearer $ADMIN_TOKEN"
+```
+
 Accessing Services
 
 Frontend: http://localhost:3000
@@ -153,14 +201,18 @@ docker-compose logs service-name
 docker-compose up --build
 Database Access
 MongoDB
-bashCopy# Access MongoDB shell
+``` bash
+# Access MongoDB shell
 docker exec -it fashion-ecommerce-docker-mongodb-1 mongosh
+```
 
 # Use specific database
 use fashion-ecommerce-users
 PostgreSQL
-bashCopy# Access PostgreSQL shell
+``` bash
+# Access PostgreSQL shell
 docker exec -it fashion-postgres psql -U admin -d fashion_ecommerce_orders
+```
 
 # Basic PostgreSQL commands
 \l    # List databases
@@ -187,14 +239,3 @@ Docker Issues
 Clean up unused resources: docker system prune
 Remove all containers: docker-compose down
 Remove all volumes: docker volume rm $(docker volume ls -q)
-
-
-
-Project Structure
-Copyfashion-ecommerce/
-├── docker-compose.yml
-├── user-service/
-├── product-service/
-├── order-service/
-├── recommendation-service/
-├── analytics-service/
